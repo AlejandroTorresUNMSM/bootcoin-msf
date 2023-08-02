@@ -2,10 +2,13 @@ package com.atorres.bootcoinmsf.service.impl;
 
 import com.atorres.bootcoinmsf.client.FeignApiAccount;
 import com.atorres.bootcoinmsf.exception.CustomException;
-import com.atorres.bootcoinmsf.model.PaymentUpdate;
 import com.atorres.bootcoinmsf.model.CreateRequest;
+import com.atorres.bootcoinmsf.model.PetitionRequest;
+import com.atorres.bootcoinmsf.model.TransactionResponse;
+import com.atorres.bootcoinmsf.model.accountms.AccountDto;
 import com.atorres.bootcoinmsf.model.dao.BootcoinDao;
 import com.atorres.bootcoinmsf.model.dto.BootcoinDto;
+import com.atorres.bootcoinmsf.model.dto.PetitionDto;
 import com.atorres.bootcoinmsf.model.dto.SellerDto;
 import com.atorres.bootcoinmsf.repository.BootcoinRepository;
 import com.atorres.bootcoinmsf.service.BootcoinService;
@@ -100,6 +103,61 @@ public class BootcoinServiceImpl implements BootcoinService {
         .doOnSuccess(v -> hashOperations.remove(KEY_REDIS,bootcoinId));
   }
 
+  /**
+   * Metodo para comprar bootcoin a vendedores
+   * @param request request
+   * @param myPhone phone del comprador
+   * @return petitionDto
+   */
+  @Override
+  public Mono<PetitionDto> createPetition(PetitionRequest request,String myPhone) {
+    Mono<BootcoinDao> buyer = getWalletByPhone(myPhone);
+
+    Mono<BootcoinDao> seller = getWalletByPhone(request.getPhoneSeller());
+
+    return buyer.zipWith(seller)
+        .flatMap(tuple -> {
+          BootcoinDao buyerWallet = tuple.getT1();
+          BootcoinDao sellerWallet = tuple.getT2();
+          return bootcoinMapper.toPetitionDao(buyerWallet, sellerWallet, request);
+        })
+        .map(bootcoinMapper::toPetitionDto);
+  }
+
+
+
+  /**
+   * Metodo para ejecutar la transaccion
+   * @param petitionId petition id
+   * @return transactionResponse
+   */
+  @Override
+  public Mono<TransactionResponse> aceptTransaction(String petitionId) {
+    return null;
+  }
+
+  /**
+   * Metodo que valida una cuenta por celular
+   * @param phone celular
+   * @return account
+   */
+  private Mono<AccountDto>  getAccountByPhone(String phone){
+    return getWalletByPhone(phone)
+        .flatMap(bootcoinDao -> accountService.getAccount(bootcoinDao.getPaymentId())
+            .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND,"NO existe la cuenta")))
+            .single());
+  }
+
+  /**
+   * Metodo que traer una billetera por su celular
+   * @param phone celular
+   * @return bootcoin
+   */
+  private Mono<BootcoinDao>  getWalletByPhone(String phone){
+    return bootcoinRepository.findByPhone(phone)
+        .switchIfEmpty(Mono.error(new CustomException(HttpStatus.NOT_FOUND,"No existe el comprador")))
+        .single();
+  }
   /**
    * Valida si ya existe el bootcoin
    * @param request request

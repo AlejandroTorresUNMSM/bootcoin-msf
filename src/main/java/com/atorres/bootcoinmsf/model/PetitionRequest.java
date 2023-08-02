@@ -2,14 +2,16 @@ package com.atorres.bootcoinmsf.model;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class PetitionRequest {
   /**
-   * Id de la billetera de comprador
+   * Phone de vendedor
    */
-  private String pursecoinId;
+  private String phoneSeller;
   /**
-   * Clave de seguridad
+   * Cantidad bootcoin a comprar
    */
-  private String pass;
+  private BigDecimal bootcoinAmout;
 }

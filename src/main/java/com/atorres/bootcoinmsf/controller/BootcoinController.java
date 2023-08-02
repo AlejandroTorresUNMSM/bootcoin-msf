@@ -1,8 +1,10 @@
 package com.atorres.bootcoinmsf.controller;
 
-import com.atorres.bootcoinmsf.model.PaymentUpdate;
 import com.atorres.bootcoinmsf.model.CreateRequest;
+import com.atorres.bootcoinmsf.model.PetitionRequest;
+import com.atorres.bootcoinmsf.model.TransactionResponse;
 import com.atorres.bootcoinmsf.model.dto.BootcoinDto;
+import com.atorres.bootcoinmsf.model.dto.PetitionDto;
 import com.atorres.bootcoinmsf.model.dto.SellerDto;
 import com.atorres.bootcoinmsf.service.BootcoinService;
 import lombok.extern.slf4j.Slf4j;
@@ -54,11 +56,11 @@ public class BootcoinController {
    * @param paymentId id de la cuenta
    * @return bootcoinDto
    */
-  @PatchMapping(value = "/add-payment/{bootcoinId/paymentId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+  @PatchMapping(value = "/add-payment/{bootcoinId}/{paymentId}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
   public Mono<BootcoinDto> addPayment(
       @PathVariable String bootcoinId,
-      @PathVariable String paymentId){
-    return bootcoinService.addPayment(bootcoinId,paymentId);
+      @PathVariable String paymentId) {
+    return bootcoinService.addPayment(bootcoinId, paymentId);
   }
 
   /**
@@ -68,6 +70,24 @@ public class BootcoinController {
   @GetMapping(value = "/sellers", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
   public Flux<SellerDto> getAllSeller(){
     return bootcoinService.getAllSeller();
+  }
+
+  /**
+   * Metodo para crear una peticion de compra
+   * @param request request con la peticion
+   * @param myPhone celular comprador
+   * @return petitionDto
+   */
+  @PostMapping(value = "/petition/{myPhone}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+  public Mono<PetitionDto> createPetition(
+      @RequestBody PetitionRequest request,
+      @PathVariable String myPhone){
+    return bootcoinService.createPetition(request,myPhone);
+  }
+
+  @PostMapping(value ="/petition/accept/{petitionId}")
+  public Mono<TransactionResponse> acceptPetition(@PathVariable String petitionId){
+    return bootcoinService.aceptTransaction(petitionId);
   }
 
   /**

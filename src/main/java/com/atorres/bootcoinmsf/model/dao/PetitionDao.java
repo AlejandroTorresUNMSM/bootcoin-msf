@@ -22,21 +22,25 @@ public class PetitionDao {
    */
   private String phone;
   /**
+   * Nombre del comprador
+   */
+  private String nameBuyer;
+  /**
    * Nombre del vendedor
    */
   private String nameSeller;
-  /**
-   * Nombre del comprador
-   */
-  private String namePurchaser;
   /**
    * Metodo de transferencia : cuenta o yanki
    */
   private String methodTransfer;
   /**
-   * Id del metodo de transferencia
+   * Id cuenta comprador
    */
-  private String transferProduct;
+  private String accountBuyer;
+  /**
+   * Id cuenta vendedor
+   */
+  private String accountSeller;
   /**
    * Cantidad de bootcoin  a transferir
    */
