@@ -1,6 +1,6 @@
 package com.atorres.bootcoinmsf.repository;
 
-import com.atorres.bootcoinmsf.model.dao.PursecoinDao;
+import com.atorres.bootcoinmsf.model.dao.BootcoinDao;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
@@ -8,9 +8,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
-public interface PursecoinRepository extends ReactiveMongoRepository<PursecoinDao, String> {
+public interface BootcoinRepository extends ReactiveMongoRepository<BootcoinDao, String> {
   @Query("{ 'isSeller': true }")
-  Flux<PursecoinDao> findAllSellers();
+  Flux<BootcoinDao> findAllSellers();
 
-  Mono<PursecoinDao> findByPhone(String phone);
+  Mono<BootcoinDao> findByPhone(String phone);
 }

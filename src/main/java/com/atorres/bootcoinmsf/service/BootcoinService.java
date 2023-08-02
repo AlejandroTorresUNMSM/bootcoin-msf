@@ -1,13 +1,13 @@
 package com.atorres.bootcoinmsf.service;
 import com.atorres.bootcoinmsf.model.PursecoinRequest;
-import com.atorres.bootcoinmsf.model.dto.PursecoinDto;
+import com.atorres.bootcoinmsf.model.dto.BootcoinDto;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface BootcoinService {
-  Flux<PursecoinDto> getAll();
-  Mono<PursecoinDto> getPursecoin(String purseId);
+  Flux<BootcoinDto> getAll();
+  Mono<BootcoinDto> getPursecoin(String purseId);
 
-  Mono<PursecoinDto> createPursecoin(PursecoinRequest request);
+  Mono<BootcoinDto> createPursecoin(PursecoinRequest request);
 
 }

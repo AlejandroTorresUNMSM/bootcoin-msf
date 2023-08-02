@@ -10,7 +10,7 @@ import java.math.BigDecimal;
  * Clase representa una peticion para comprar  bootcoins
  */
 @Data
-@Document("petition")
+@Document("petitions")
 public class PetitionDao {
   /**
    * Id

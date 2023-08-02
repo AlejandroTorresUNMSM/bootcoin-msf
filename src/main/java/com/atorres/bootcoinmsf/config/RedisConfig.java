@@ -1,6 +1,6 @@
 package com.atorres.bootcoinmsf.config;
 
-import com.atorres.bootcoinmsf.model.dao.PursecoinDao;
+import com.atorres.bootcoinmsf.model.dao.BootcoinDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
@@ -25,12 +25,12 @@ public class RedisConfig {
    */
   @Bean(name = "ReactiveHashOperationsCustom")
   public ReactiveHashOperations<String, String,
-      PursecoinDao> hashOperations(ReactiveRedisConnectionFactory redisConnectionFactory) {
+      BootcoinDao> hashOperations(ReactiveRedisConnectionFactory redisConnectionFactory) {
     var template = new ReactiveRedisTemplate<>(
         redisConnectionFactory,
-        RedisSerializationContext.<String, PursecoinDao>newSerializationContext(new StringRedisSerializer())
+        RedisSerializationContext.<String, BootcoinDao>newSerializationContext(new StringRedisSerializer())
             .hashKey(new GenericToStringSerializer<>(String.class))
-            .hashValue(new Jackson2JsonRedisSerializer<>(PursecoinDao.class))
+            .hashValue(new Jackson2JsonRedisSerializer<>(BootcoinDao.class))
             .build()
     );
     return template.opsForHash();

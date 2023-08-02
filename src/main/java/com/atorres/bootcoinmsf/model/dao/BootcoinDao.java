@@ -10,8 +10,8 @@ import java.math.BigDecimal;
  * Clase Billetera bootcoin
  */
 @Data
-@Document("pursecoin")
-public class PursecoinDao {
+@Document("bootcoins")
+public class BootcoinDao {
   /**
    * Id
    */
@@ -32,7 +32,7 @@ public class PursecoinDao {
   /**
    * Cantidad de bootcoin
    */
-  private BigDecimal bootcoin;
+  private BigDecimal bootcoinAmount;
   /**
    * Boolean indica si es vendedor
    */
