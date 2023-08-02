@@ -1,8 +1,9 @@
 package com.atorres.bootcoinmsf.utils;
 
-import com.atorres.bootcoinmsf.model.PursecoinRequest;
+import com.atorres.bootcoinmsf.model.CreateRequest;
 import com.atorres.bootcoinmsf.model.dao.BootcoinDao;
 import com.atorres.bootcoinmsf.model.dto.BootcoinDto;
+import com.atorres.bootcoinmsf.model.dto.SellerDto;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -20,7 +21,7 @@ public class BootcoinMapper {
     return purse;
   }
 
-  public BootcoinDao toDao(PursecoinRequest request){
+  public BootcoinDao toDao(CreateRequest request){
     BootcoinDao purse = new BootcoinDao();
     purse.setNombre(request.getNombre());
     purse.setPhone(request.getPhone());
@@ -28,6 +29,15 @@ public class BootcoinMapper {
     purse.setBootcoinAmount(new BigDecimal(("0")));
     purse.setPass(request.getPass());
     purse.setIsSeller(false);
+    purse.setPaymentId("");
     return purse;
+  }
+
+  public SellerDto toSeller(BootcoinDao bootcoinDao){
+    SellerDto sellerDto = new SellerDto();
+    sellerDto.setNombre(bootcoinDao.getNombre());
+    sellerDto.setPhone(bootcoinDao.getPhone());
+    sellerDto.setBootcoinAmount(bootcoinDao.getBootcoinAmount());
+    return sellerDto;
   }
 }

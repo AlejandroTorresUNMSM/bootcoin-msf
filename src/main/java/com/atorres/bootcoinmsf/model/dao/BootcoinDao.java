@@ -1,5 +1,6 @@
 package com.atorres.bootcoinmsf.model.dao;
 
+import com.atorres.bootcoinmsf.utils.PaymentType;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -41,4 +42,8 @@ public class BootcoinDao {
    * Clave seguridad
    */
   private String pass;
+  /**
+   * Cuenta id,metodo de pago
+   */
+  private String paymentId;
 }
